@@ -9,24 +9,37 @@ public class Examen {
 	private RandomGenerator random;
 	private QuestionNumber q;
 	
-	public Examen() {
-		this.client = new ClientAnswer();
+	private double noteEleve;
+	private double noteExam;
+	
+	public Examen(ClientAnswer client) {
+		this.client = client;
 		this.functions = new Functions();
 		this.random = new RandomGenerator();
+		this.noteEleve = 0;
 	}
 
+	public double getNoteExam() {
+		return this.noteExam;
+	}
+	
+	public double getNoteEleve() {
+		return this.noteEleve;
+	}
+	
 	//TODO : Realiser les demandes de poids et de trouver la question a pose. Affecter q a la question
 	
 	public void getQuestion() {
 		
 		this.q = QuestionNumber.Q1;
+		this.noteExam += this.q.getBareme();
 	}
 	
 	
-	public int startQuestion() {
+	public void startQuestion() {
 
 		if(q.equals(QuestionNumber.Q1)) {
-			return askQuestionSecondDegreeEquations();
+			askQuestionSecondDegreeEquations();
 		}else{
 			ArrayList<Double> limits = random.getLimitsIntegral();
 			double a = limits.get(0);
@@ -35,10 +48,10 @@ public class Examen {
 			
 			if(q.equals(QuestionNumber.Q22a) || q.equals(QuestionNumber.Q22b) ||q.equals(QuestionNumber.Q22c) ||q.equals(QuestionNumber.Q23a)) {
 				double c = random.getRandomDoubleWithException(0);
-				return askQuestionIntegration22And23(a, b,c);
+				askQuestionIntegration22And23(a, b,c);
 			}
 			else if(q.equals(QuestionNumber.Q21a)) {
-				return askQuestionIntegration21a(a, b);				
+				askQuestionIntegration21a(a, b);				
 			}
 			else{
 				ArrayList<Double> exceptions = new ArrayList<Double>();
@@ -46,22 +59,24 @@ public class Examen {
 				exceptions.add(b);
 				double c = random.getRandomDoubleWithExceptions(exceptions);
 				
-				return askQuestionIntegration21b(a, b, c);
+				askQuestionIntegration21b(a, b, c);
 			}
 		}
 	}
 	
-	public int askQuestionIntegration21b(double a, double b, double c) {
+	public void askQuestionIntegration21b(double a, double b, double c) {
 		System.out.println("f(x) = (1/(x-"+c+")");
 
 		System.out.println("Quelle est votre réponse ? ");
 		double answer = client.getDoubleAnswer();
 		double response = functions.pow2(a, b, c);
-		return compareDoubleAnswers(answer, response)?1:0;
+		
+		if(goodAnswer(answer, response))
+			this.noteEleve += this.q.getBareme();
 
 	}
 	
-	public int askQuestionIntegration21a(double a, double b) {
+	public void askQuestionIntegration21a(double a, double b) {
 		double c = random.getRandomDoubleWithException(0);
 		double d = random.getRandomDouble();
 		double alpha = random.getRandomDoubleWithException(-1);
@@ -72,10 +87,11 @@ public class Examen {
 		double answer = client.getDoubleAnswer();
 		double response = functions.pow1(a, b, c, d, alpha);
 		
-		return compareDoubleAnswers(answer, response)?1:0;
+		if(goodAnswer(answer, response))
+			this.noteEleve += this.q.getBareme();
 	}
 	
-	public int askQuestionIntegration22And23(double a, double b, double c) {
+	public void askQuestionIntegration22And23(double a, double b, double c) {
 	
 		double response = 0;
 		
@@ -102,18 +118,22 @@ public class Examen {
 		
 		System.out.println("Quelle est votre reponse ?");
 		double answer = client.getDoubleAnswer();
-		return compareDoubleAnswers(response, answer)?1:0;
+		
+		if(goodAnswer(answer, response))
+			this.noteEleve += this.q.getBareme();
 	}
 	
 	//TODO GERER LES REPONSES, x1 ou x2 ?
 	//TODO gerer les reponses double
-	public int askQuestionSecondDegreeEquations() {
+	public void askQuestionSecondDegreeEquations() {
+		
 		double a = random.getDoubleWithStepsAndLimits(-10, 10, 0.5);
 		double b = random.getDoubleWithStepsAndLimits(-10, 10, 0.5);
 		double c = random.getDoubleWithStepsAndLimits(-10, 10, 0.5);
+		
 		ArrayList<Double> results = functions.secondDegreEquations(a, b, c);
 		int resultsSize = results.size();
-		System.out.println(results);
+		
 		System.out.println("Resoudre l'équation de second degré : "+a+"x²+"+b+"x+"+c);
 		System.out.println("Combien de solutions ?");
 		
@@ -122,13 +142,15 @@ public class Examen {
 		if(nbAnswers == resultsSize) {
 			double x1;
 			
+			//Si dicriminant est egal a 0
 			if(resultsSize == 1) {
 				System.out.println("Quelle est la solution ?");
 				x1 = client.getDoubleAnswer();
-				if(compareDoubleAnswers(x1, results.get(0)))
-					return 1;
-					
+				if(goodAnswer(x1, results.get(0)))
+					this.noteEleve += q.getBareme();			
 			}
+			
+			//Si le discriminant est > 0
 			else if(resultsSize == 2){
 				double x2;
 				System.out.println("Quelle sont les solutions (arrondis à 0.1) ?");
@@ -136,23 +158,19 @@ public class Examen {
 				x1 = client.getDoubleAnswer();
 				System.out.println("Solution 2:");
 				x2 = client.getDoubleAnswer();
-				if(compareDoubleAnswers(x1, results.get(0)) && compareDoubleAnswers(x2, results.get(1)))
-					return 1;
+				if(goodAnswer(x1, results.get(0)) && goodAnswer(x2, results.get(1)))
+					this.noteEleve += q.getBareme();
 			}
-			else
-				return 1;
-		}
-		else 
-			System.out.println("Mauvaise réponse");
 			
-		return 0;
-		
+			//Si le discriminant est < 0
+			else
+				this.noteEleve += q.getBareme();
+		}				
 	}
 	
-	public boolean compareDoubleAnswers(double a, double b) {
+	public boolean goodAnswer(double a, double b) {
 		DecimalFormat df = new DecimalFormat("#.#");
 		df.setRoundingMode(RoundingMode.CEILING);
 		return df.format(a) == df.format(b);
-			
 	}
 }
