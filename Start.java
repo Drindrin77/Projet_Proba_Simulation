@@ -7,9 +7,10 @@ public class Start {
 		int restart = 1;
 		
 		System.out.println("Controle de probabilite");
+		exam.askProbabilities();
 		do {
 			
-			exam.getQuestion();
+			exam.choseQuestion();
 			exam.startQuestion();
 		
 			System.out.println("Voulez-vous recommencer? 1 pour oui, 0 pour non");

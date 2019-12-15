@@ -8,7 +8,9 @@ public class Examen {
 	private Functions functions;
 	private RandomGenerator random;
 	private QuestionNumber q;
-	
+
+	private double probaP1, probaP2, probaP21, probaP22;
+
 	private double noteEleve;
 	private double noteExam;
 	
@@ -16,7 +18,6 @@ public class Examen {
 		this.client = client;
 		this.functions = new Functions();
 		this.random = new RandomGenerator();
-		this.noteEleve = 0;
 	}
 
 	public double getNoteExam() {
@@ -27,12 +28,127 @@ public class Examen {
 		return this.noteEleve;
 	}
 	
-	//TODO : Realiser les demandes de poids et de trouver la question a pose. Affecter q a la question
-	
-	public void getQuestion() {
-		
-		this.q = QuestionNumber.Q1;
+	public void choseQuestion() {
+		double randomNumber = Math.random();
+
+		if (randomNumber <= probaP1){ //Cas exo 1
+			this.q = QuestionNumber.Q1;
+		}
+		else{ //Cas exo 2
+			randomNumber = Math.random();
+			if(randomNumber <= probaP21){  //Cas question 21
+				randomNumber = Math.random();
+
+				if(randomNumber < 0.5)
+					this.q = QuestionNumber.Q21a;
+				else{
+					this.q = QuestionNumber.Q21b;
+				}
+
+			}
+			else if(randomNumber <=probaP21 + probaP22){ //Cas question 22
+				if(randomNumber < 1./3)
+					this.q = QuestionNumber.Q22a;
+				else if(randomNumber < 2./3){
+					this.q = QuestionNumber.Q22b;
+				}
+				else {
+					this.q = QuestionNumber.Q22c;
+				}
+			}
+			else{ //Cas question 23
+				this.q = QuestionNumber.Q23a;
+			}
+		}
+
+
 		this.noteExam += this.q.getBareme();
+	}
+
+
+
+	//Demande à l'étudiant de fixer les probabilité d'obtenir les questions pour l'ensemble de l'examen
+	public void askProbabilities(){
+		System.out.println("Choisissez les probabilités d'être interoger sur l'exercice 1 (équations du second degré)\n" +
+				"ou sur l'exercice 2 (intégartion sur R)\n\n" +
+				"Attention : la somme des probabilités doit être égale à 1!\n" +
+				"-----------------------------------------------------------------------------------------------\n");
+
+		boolean correctValues = false;
+
+		//proba pour l'exercice
+		do {
+			System.out.println("Entrez la probabilité pour l'exercice 1:");
+			probaP1 = client.getDoubleAnswer();
+
+			if(probaP1 < 0.0 || probaP1 > 1.0){
+				System.out.println("Veuillez rentrer une probabilité cohérente");
+			}
+			else{
+				System.out.println("Entrez la probabilité pour l'exercice 2:");
+				probaP2 = client.getDoubleAnswer();
+				if(probaP2 < 0.0 || probaP2 > 1.0){
+					System.out.println("Veuillez rentrer une probabilité cohérente");
+				}
+				else if(probaP1 + probaP2 != 1.0){
+					System.out.println("La somme des probabilités vaut : " + (probaP1 + probaP2) + "\n" +
+							"veuillez vous assurez qu'elle soit égale à 1");
+				}
+				else {
+					correctValues = true;
+				}
+			}
+		}while (!correctValues);
+
+		//proba de la question dans le cas de l'exo 2
+
+		if(probaP2 > 0.0){
+			correctValues = false;
+
+
+			System.out.println("-------------------------------------------------------------------------------------\n" +
+					"Dans le cas où vous tomberiez sur l'exercice 2, choisissez les probabilités d'être interoger \n" +
+					"sur la question 21 (fonctions puissance), sur la question 22 (fonctions trigonométrique) \n" +
+					"ou sur la question 23 (fonctions logarithmique)\n\n" +
+					"Attention : la somme des probabilités doit être égale à 1!\n" +
+					"-----------------------------------------------------------------------------------------------\n");
+			do {
+				System.out.println("Entrez la probabilité pour la question 21");
+				probaP21 = client.getDoubleAnswer();
+
+				if(probaP21 < 0.0 || probaP21 > 1.0){
+					System.out.println("Veuillez rentrer une probabilité cohérente");
+				}
+				else{
+					System.out.println("Entrez la probabilité pour la question 22");
+					probaP22 = client.getDoubleAnswer();
+
+					if(probaP22 < 0.0 || probaP22 > 1.0){
+						System.out.println("Veuillez rentrer une probabilité cohérente");
+					}
+					else if(probaP21 + probaP22 > 1.0){
+						System.out.println("La somme des deux premieres probabilités vaut : " + (probaP21 + probaP22) + "\n" +
+								"veuillez vous assurez qu'elle ne dépassent pas 1");
+					}
+
+					else {
+						System.out.println("Entrez la probabilité pour la question 23");
+						double probaP23 = client.getDoubleAnswer();
+
+						if(probaP23 < 0.0 || probaP23 > 1.0){
+							System.out.println("Veuillez rentrer une probabilité cohérente");
+						}
+						else if(probaP21 + probaP22 + probaP23 != 1.0){
+							System.out.println("La somme des probabilités vaut : " + (probaP21 + probaP22 + probaP23) + "\n" +
+									"veuillez vous assurez qu'elle soit égale à 1");
+						}
+						else{
+							correctValues = true;
+						}
+					}
+				}
+			}while (!correctValues);
+		}
 	}
 	
 	
@@ -44,7 +160,7 @@ public class Examen {
 			ArrayList<Double> limits = random.getLimitsIntegral();
 			double a = limits.get(0);
 			double b = limits.get(1);
-			System.out.print("Resoudre l'integrale de "+ a + "�" + b + "de la fonction ");
+			System.out.print("Resoudre l'integrale de "+ a + "à" + b + "de la fonction ");
 			
 			if(q.equals(QuestionNumber.Q22a) || q.equals(QuestionNumber.Q22b) ||q.equals(QuestionNumber.Q22c) ||q.equals(QuestionNumber.Q23a)) {
 				double c = random.getRandomDoubleWithException(0);
@@ -67,7 +183,7 @@ public class Examen {
 	public void askQuestionIntegration21b(double a, double b, double c) {
 		System.out.println("f(x) = (1/(x-"+c+")");
 
-		System.out.println("Quelle est votre r�ponse ? ");
+		System.out.println("Quelle est votre réponse ? ");
 		double answer = client.getDoubleAnswer();
 		double response = functions.pow2(a, b, c);
 		
@@ -83,7 +199,7 @@ public class Examen {
 		
 		System.out.println("f(x) = ("+c+"x-"+d+")^"+alpha);
 		
-		System.out.println("Quelle est votre r�ponse ? ");
+		System.out.println("Quelle est votre réponse ? ");
 		double answer = client.getDoubleAnswer();
 		double response = functions.pow1(a, b, c, d, alpha);
 		
@@ -134,7 +250,7 @@ public class Examen {
 		ArrayList<Double> results = functions.secondDegreEquations(a, b, c);
 		int resultsSize = results.size();
 		
-		System.out.println("Resoudre l'�quation de second degr� : "+a+"x�+"+b+"x+"+c);
+		System.out.println("Resoudre l'équation de second degré : "+a+"x²+"+b+"x+"+c);
 		System.out.println("Combien de solutions ?");
 		
 		int nbAnswers = client.getIntAnswer();
@@ -153,7 +269,7 @@ public class Examen {
 			//Si le discriminant est > 0
 			else if(resultsSize == 2){
 				double x2;
-				System.out.println("Quelle sont les solutions (arrondis � 0.1) ?");
+				System.out.println("Quelle sont les solutions (arrondis à 0.1) ?");
 				System.out.println("Solution 1:");
 				x1 = client.getDoubleAnswer();
 				System.out.println("Solution 2:");
