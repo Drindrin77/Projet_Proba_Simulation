@@ -4,7 +4,6 @@ public class Start {
 
 		ClientAnswer client = new ClientAnswer();
 		Examen exam = new Examen(client);
-
 		int restart = 1;
 		
 		System.out.println("Controle de probabilite");
