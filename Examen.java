@@ -9,7 +9,7 @@ public class Examen {
 	private RandomGenerator random;
 	private QuestionNumber q;
 
-	private double probaP1, probaP2, probaP21, probaP22;
+	private double probaP1, probaP21, probaP22;
 
 	private double noteEleve;
 	private double noteExam;
@@ -47,6 +47,7 @@ public class Examen {
 
 			}
 			else if(randomNumber <=probaP21 + probaP22){ //Cas question 22
+				randomNumber = Math.random();
 				if(randomNumber < 1./3)
 					this.q = QuestionNumber.Q22a;
 				else if(randomNumber < 2./3){
@@ -69,85 +70,33 @@ public class Examen {
 
 	//Demande à l'étudiant de fixer les probabilité d'obtenir les questions pour l'ensemble de l'examen
 	public void askProbabilities(){
-		System.out.println("Choisissez les probabilités d'être interoger sur l'exercice 1 (équations du second degré)\n" +
+		System.out.println("Choisissez les poids d'être interoger sur l'exercice 1 (équations du second degré)\n" +
 				"ou sur l'exercice 2 (intégartion sur R)\n\n" +
-				"Attention : la somme des probabilités doit être égale à 1!\n" +
+				"Attention : les poids doivent toujouts être positifs!\n" +
 				"-----------------------------------------------------------------------------------------------\n");
+		//poids pour l'exercice 1
+		int poidP1, poidP2;
+		poidP1 = client.getWeight("Entrez la poid pour l'exercice 1:");
+		poidP2 = client.getWeight("Entrez la probabilité pour l'exercice 2:");
 
-		boolean correctValues = false;
-
-		//proba pour l'exercice
-		do {
-			System.out.println("Entrez la probabilité pour l'exercice 1:");
-			probaP1 = client.getDoubleAnswer();
-
-			if(probaP1 < 0.0 || probaP1 > 1.0){
-				System.out.println("Veuillez rentrer une probabilité cohérente");
-			}
-			else{
-				System.out.println("Entrez la probabilité pour l'exercice 2:");
-				probaP2 = client.getDoubleAnswer();
-				if(probaP2 < 0.0 || probaP2 > 1.0){
-					System.out.println("Veuillez rentrer une probabilité cohérente");
-				}
-				else if(probaP1 + probaP2 != 1.0){
-					System.out.println("La somme des probabilités vaut : " + (probaP1 + probaP2) + "\n" +
-							"veuillez vous assurez qu'elle soit égale à 1");
-				}
-				else {
-					correctValues = true;
-				}
-			}
-		}while (!correctValues);
+		probaP1 = poidP1 / (double) (poidP1 + poidP2);
 
 		//proba de la question dans le cas de l'exo 2
-
-		if(probaP2 > 0.0){
-			correctValues = false;
-
-
+		if(probaP1 != 1.0){
+			int  poidP21, poidP22, poidP23;
 			System.out.println("-------------------------------------------------------------------------------------\n" +
-					"Dans le cas où vous tomberiez sur l'exercice 2, choisissez les probabilités d'être interoger \n" +
+					"Dans le cas où vous tomberiez sur l'exercice 2, choisissez les poids d'être interogé \n" +
 					"sur la question 21 (fonctions puissance), sur la question 22 (fonctions trigonométrique) \n" +
 					"ou sur la question 23 (fonctions logarithmique)\n\n" +
 					"Attention : la somme des probabilités doit être égale à 1!\n" +
 					"-----------------------------------------------------------------------------------------------\n");
-			do {
-				System.out.println("Entrez la probabilité pour la question 21");
-				probaP21 = client.getDoubleAnswer();
+			poidP21 = client.getWeight("Entrez le poid  pour la question 21");
+			poidP22 = client.getWeight("Entrez la probabilité pour la question 22");
+			poidP23 = client.getWeight("Entrez la probabilité pour la question 23");
 
-				if(probaP21 < 0.0 || probaP21 > 1.0){
-					System.out.println("Veuillez rentrer une probabilité cohérente");
-				}
-				else{
-					System.out.println("Entrez la probabilité pour la question 22");
-					probaP22 = client.getDoubleAnswer();
+			probaP21 = poidP21 / (double) (poidP21 + poidP22 + poidP23);
+			probaP22 = poidP22 / (double) (poidP21 + poidP22 + poidP23);
 
-					if(probaP22 < 0.0 || probaP22 > 1.0){
-						System.out.println("Veuillez rentrer une probabilité cohérente");
-					}
-					else if(probaP21 + probaP22 > 1.0){
-						System.out.println("La somme des deux premieres probabilités vaut : " + (probaP21 + probaP22) + "\n" +
-								"veuillez vous assurez qu'elle ne dépassent pas 1");
-					}
-
-					else {
-						System.out.println("Entrez la probabilité pour la question 23");
-						double probaP23 = client.getDoubleAnswer();
-
-						if(probaP23 < 0.0 || probaP23 > 1.0){
-							System.out.println("Veuillez rentrer une probabilité cohérente");
-						}
-						else if(probaP21 + probaP22 + probaP23 != 1.0){
-							System.out.println("La somme des probabilités vaut : " + (probaP21 + probaP22 + probaP23) + "\n" +
-									"veuillez vous assurez qu'elle soit égale à 1");
-						}
-						else{
-							correctValues = true;
-						}
-					}
-				}
-			}while (!correctValues);
 		}
 	}
 	

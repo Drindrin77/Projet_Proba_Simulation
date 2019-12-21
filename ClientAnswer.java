@@ -14,7 +14,7 @@ public class ClientAnswer {
 		double answer = 0;
 		boolean stop = false;
 		do {
-			System.out.println("Veuillez saisir un double avec un point comme délimiteur");
+			System.out.println("Veuillez saisir un double avec un point comme dï¿½limiteur");
 			if(scanner.hasNextDouble()) {
 				answer = scanner.nextDouble();
 				stop = true;
@@ -38,6 +38,17 @@ public class ClientAnswer {
 			return getIntAnswer();
 		}
 		
+	}
+
+	public int getWeight(String demand){
+		int answer;
+
+		do{
+			System.out.println(demand);
+			answer = getIntAnswer();
+		}while(answer < 0);
+
+		return answer;
 	}
 	
 	public void closeScanner() {
