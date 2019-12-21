@@ -7,9 +7,8 @@ public class Start {
 		int restart = 1;
 		
 		System.out.println("Controle de probabilite");
-		exam.askProbabilities();
 		do {
-			
+			client.askPounds();
 			exam.choseQuestion();
 			exam.startQuestion();
 		

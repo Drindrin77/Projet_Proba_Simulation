@@ -9,8 +9,6 @@ public class Examen {
 	private RandomGenerator random;
 	private QuestionNumber q;
 
-	private double probaP1, probaP21, probaP22;
-
 	private double noteEleve;
 	private double noteExam;
 	
@@ -31,76 +29,36 @@ public class Examen {
 	public void choseQuestion() {
 		double randomNumber = Math.random();
 
-		if (randomNumber <= probaP1){ //Cas exo 1
+		if (randomNumber <= client.getP1()) //Cas exo 1
 			this.q = QuestionNumber.Q1;
-		}
-		else{ //Cas exo 2
+		
+		else { //Cas exo 2
 			randomNumber = Math.random();
-			if(randomNumber <= probaP21){  //Cas question 21
+			if(randomNumber <= client.getP21()){  //Cas question 21
 				randomNumber = Math.random();
-
+				
 				if(randomNumber < 0.5)
 					this.q = QuestionNumber.Q21a;
-				else{
+				else
 					this.q = QuestionNumber.Q21b;
-				}
-
 			}
-			else if(randomNumber <=probaP21 + probaP22){ //Cas question 22
+			else if(randomNumber <= client.getP21() + client.getP22()){ //Cas question 22
 				randomNumber = Math.random();
 				if(randomNumber < 1./3)
 					this.q = QuestionNumber.Q22a;
-				else if(randomNumber < 2./3){
+				
+				else if(randomNumber < 2./3)
 					this.q = QuestionNumber.Q22b;
-				}
-				else {
+				
+				else 
 					this.q = QuestionNumber.Q22c;
-				}
 			}
-			else{ //Cas question 23
+			else //Cas question 23
 				this.q = QuestionNumber.Q23a;
-			}
 		}
-
-
 		this.noteExam += this.q.getBareme();
 	}
 
-
-
-	//Demande à l'étudiant de fixer les probabilité d'obtenir les questions pour l'ensemble de l'examen
-	public void askProbabilities(){
-		System.out.println("Choisissez les poids d'etre interoger sur l'exercice 1 (equations du second degre)\n" +
-				"ou sur l'exercice 2 (integration sur R)\n\n" +
-				"Attention : les poids doivent toujouts etre positifs!\n" +
-				"-----------------------------------------------------------------------------------------------\n");
-		//poids pour l'exercice 1
-		int poidP1, poidP2;
-		poidP1 = client.getWeight("Entrez le poids pour l'exercice 1:");
-		poidP2 = client.getWeight("Entrez le poids pour l'exercice 2:");
-
-		probaP1 = poidP1 / (double) (poidP1 + poidP2);
-
-		//proba de la question dans le cas de l'exo 2
-		if(probaP1 != 1.0){
-			int  poidP21, poidP22, poidP23;
-			System.out.println("-------------------------------------------------------------------------------------\n" +
-					"Dans le cas ou vous tomberiez sur l'exercice 2, choisissez les poids d'etre interroge \n" +
-					"sur la question 21 (fonction puissance), sur la question 22 (fonction trigonometrique) \n" +
-					"ou sur la question 23 (fonction logarithmique)\n\n" +
-					"Attention : les poids doivent toujouts etre positifs!\n" +
-					"-----------------------------------------------------------------------------------------------\n");
-			poidP21 = client.getWeight("Entrez le poids pour la question 21");
-			poidP22 = client.getWeight("Entrez le poids pour la question 22");
-			poidP23 = client.getWeight("Entrez le poids pour la question 23");
-
-			probaP21 = poidP21 / (double) (poidP21 + poidP22 + poidP23);
-			probaP22 = poidP22 / (double) (poidP21 + poidP22 + poidP23);
-
-		}
-	}
-	
-	
 	public void startQuestion() {
 
 		if(q.equals(QuestionNumber.Q1)) {
@@ -109,7 +67,7 @@ public class Examen {
 			ArrayList<Double> limits = random.getLimitsIntegral();
 			double a = limits.get(0);
 			double b = limits.get(1);
-			System.out.print("Resoudre l'integrale de "+ a + "a�" + b + "de la fonction ");
+			System.out.print("Resoudre l'integrale de "+ a + "a" + b + "de la fonction ");
 			
 			if(q.equals(QuestionNumber.Q22a) || q.equals(QuestionNumber.Q22b) ||q.equals(QuestionNumber.Q22c) ||q.equals(QuestionNumber.Q23a)) {
 				double c = random.getRandomDoubleWithException(0);
