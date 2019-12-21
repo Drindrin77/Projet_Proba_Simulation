@@ -3,6 +3,7 @@ import java.util.Random;
 
 public class RandomGenerator {
 
+	private Random random;
 	
 	public double getDoubleWithStepsAndLimits(int min, int max, double steps) {
 		
@@ -10,8 +11,7 @@ public class RandomGenerator {
 		for(double i = min ; i <= max ; i +=steps) {
 			doubles.add(i);
 		}
-		Random rand = new Random();
-		double randomElement = doubles.get(rand.nextInt(doubles.size()));
+		double randomElement = doubles.get(random.nextInt(doubles.size()));
 		
 		return randomElement;
 	}
@@ -19,7 +19,6 @@ public class RandomGenerator {
 	// 0 = borne inf, 1 = borne sup 
 	public ArrayList<Double> getLimitsIntegral() {
 		ArrayList<Double> limits = new ArrayList<Double>();
-		Random random = new Random();
 		double inf = random.nextDouble();
 		double supp;
 		do {
@@ -33,12 +32,10 @@ public class RandomGenerator {
 	}
 	
 	public double getRandomDouble() {
-		Random random = new Random();
 		return random.nextDouble();
 	}
 	
 	public double getRandomDoubleWithException(double exception) {
-		Random random = new Random();
 		double result;
 		do {
 			result = random.nextDouble();
@@ -48,7 +45,6 @@ public class RandomGenerator {
 	}
 	
 	public double getRandomDoubleWithExceptions(ArrayList<Double> exceptions) {
-		Random random = new Random();
 		double result;
 		do {
 			result = random.nextDouble();

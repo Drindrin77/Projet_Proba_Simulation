@@ -146,8 +146,6 @@ public class Examen {
 			this.noteEleve += this.q.getBareme();
 	}
 	
-	//TODO GERER LES REPONSES, x1 ou x2 ?
-	//TODO gerer les reponses double
 	public void askQuestionSecondDegreeEquations() {
 		
 		double a = random.getDoubleWithStepsAndLimits(-10, 10, 0.5);

@@ -26,7 +26,7 @@ public class ClientAnswer {
 		double answer = 0;
 		boolean stop = false;
 		do {
-			System.out.println("Veuillez saisir un double avec un point comme d�limiteur");
+			System.out.println("Veuillez saisir un double avec un point comme delimiteur");
 			if(scanner.hasNextDouble()) {
 				answer = scanner.nextDouble();
 				stop = true;
