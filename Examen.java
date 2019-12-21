@@ -70,14 +70,14 @@ public class Examen {
 
 	//Demande à l'étudiant de fixer les probabilité d'obtenir les questions pour l'ensemble de l'examen
 	public void askProbabilities(){
-		System.out.println("Choisissez les poids d'être interoger sur l'exercice 1 (équations du second degré)\n" +
-				"ou sur l'exercice 2 (intégartion sur R)\n\n" +
-				"Attention : les poids doivent toujouts être positifs!\n" +
+		System.out.println("Choisissez les poids d'etre interoger sur l'exercice 1 (equations du second degre)\n" +
+				"ou sur l'exercice 2 (integration sur R)\n\n" +
+				"Attention : les poids doivent toujouts etre positifs!\n" +
 				"-----------------------------------------------------------------------------------------------\n");
 		//poids pour l'exercice 1
 		int poidP1, poidP2;
-		poidP1 = client.getWeight("Entrez la poid pour l'exercice 1:");
-		poidP2 = client.getWeight("Entrez la poid pour l'exercice 2:");
+		poidP1 = client.getWeight("Entrez le poids pour l'exercice 1:");
+		poidP2 = client.getWeight("Entrez le poids pour l'exercice 2:");
 
 		probaP1 = poidP1 / (double) (poidP1 + poidP2);
 
@@ -85,14 +85,14 @@ public class Examen {
 		if(probaP1 != 1.0){
 			int  poidP21, poidP22, poidP23;
 			System.out.println("-------------------------------------------------------------------------------------\n" +
-					"Dans le cas où vous tomberiez sur l'exercice 2, choisissez les poids d'être interogé \n" +
-					"sur la question 21 (fonctions puissance), sur la question 22 (fonctions trigonométrique) \n" +
-					"ou sur la question 23 (fonctions logarithmique)\n\n" +
-					"Attention : les poids doivent toujouts être positifs!\n" +
+					"Dans le cas ou vous tomberiez sur l'exercice 2, choisissez les poids d'etre interroge \n" +
+					"sur la question 21 (fonction puissance), sur la question 22 (fonction trigonometrique) \n" +
+					"ou sur la question 23 (fonction logarithmique)\n\n" +
+					"Attention : les poids doivent toujouts etre positifs!\n" +
 					"-----------------------------------------------------------------------------------------------\n");
-			poidP21 = client.getWeight("Entrez le poid  pour la question 21");
-			poidP22 = client.getWeight("Entrez la poid pour la question 22");
-			poidP23 = client.getWeight("Entrez la poid pour la question 23");
+			poidP21 = client.getWeight("Entrez le poids pour la question 21");
+			poidP22 = client.getWeight("Entrez le poids pour la question 22");
+			poidP23 = client.getWeight("Entrez le poids pour la question 23");
 
 			probaP21 = poidP21 / (double) (poidP21 + poidP22 + poidP23);
 			probaP22 = poidP22 / (double) (poidP21 + poidP22 + poidP23);
