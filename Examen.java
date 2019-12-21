@@ -1,5 +1,3 @@
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class Examen {
@@ -61,91 +59,71 @@ public class Examen {
 
 	public void startQuestion() {
 
-		if(q.equals(QuestionNumber.Q1)) {
-			askQuestionSecondDegreeEquations();
-		}else{
-			ArrayList<Double> limits = random.getLimitsIntegral();
-			double a = limits.get(0);
-			double b = limits.get(1);
-			System.out.print("Resoudre l'integrale de "+ a + " a " + b + "de la fonction ");
-			
-			if(q.equals(QuestionNumber.Q22a) || q.equals(QuestionNumber.Q22b) ||q.equals(QuestionNumber.Q22c) ||q.equals(QuestionNumber.Q23a)) {
-				double c = random.getRandomDoubleWithException(0);
-				askQuestionIntegration22And23(a, b,c);
-			}
-			else if(q.equals(QuestionNumber.Q21a)) {
-				askQuestionIntegration21a(a, b);				
-			}
-			else{
-				ArrayList<Double> exceptions = new ArrayList<Double>();
-				exceptions.add(a);
-				exceptions.add(b);
-				double c = random.getRandomDoubleWithExceptions(exceptions);
-				
-				askQuestionIntegration21b(a, b, c);
-			}
-		}
-	}
-	
-	public void askQuestionIntegration21b(double a, double b, double c) {
-		System.out.println("f(x) = (1/(x-"+c+")");
+		System.out.println("Question : " + this.q);
 
-		System.out.println("Quelle est votre reponse ? ");
-		double answer = client.getDoubleAnswer();
-		double response = functions.pow2(a, b, c);
-		
-		if(goodAnswer(answer, response))
-			this.noteEleve += this.q.getBareme();
-
-	}
-	
-	public void askQuestionIntegration21a(double a, double b) {
-		double c = random.getRandomDoubleWithException(0);
-		double d = random.getDoubleWithStepsAndLimits();
-		double alpha = random.getRandomDoubleWithException(-1);
-		
-		System.out.println("f(x) = ("+c+"x-"+d+")^"+alpha);
-		
-		System.out.println("Quelle est votre reponse ? ");
-		double answer = client.getDoubleAnswer();
-		double response = functions.pow1(a, b, c, d, alpha);
-		
-		if(goodAnswer(answer, response))
-			this.noteEleve += this.q.getBareme();
-	}
-	
-	public void askQuestionIntegration22And23(double a, double b, double c) {
-	
 		double response = 0;
-		
-		switch(q) {
-			case Q22a:
-				System.out.println("f(x) = cos("+c+"x)");
-				response = functions.trigo1(a, b, c);
-				break;
-			case Q22b:
-				System.out.println("f(x) = sin("+c+"x)");
-				response = functions.trigo2(a, b, c);
-				break;
-			case Q22c:
-				System.out.println("f(x) = tan("+c+"x)");
-				response = functions.trigo3(a, b, c);
-				break;				
-			case Q23a:
-				System.out.println("f(x) = ln("+c+"x)");
-				response = functions.log(a, b, c);
-				break;
-			default:
-				break;
+		ArrayList<Double> limits = random.getLimitsIntegral();
+		double borneInf = limits.get(0);
+		double borneSup = limits.get(1);
+		double c = random.getRandomDoubleWithException(0);
+
+		if(q.equals(QuestionNumber.Q1))
+			askQuestionSecondDegreeEquations();
+		else {
+			System.out.print("Resoudre l'integrale de "+ borneInf + " a " + borneSup + " de la fonction ");
+			switch(q) {
+				case Q21a:
+					c = random.getRandomDoubleWithException(0);
+					double d = random.getDoubleWithStepsAndLimits();
+					double alpha = random.getRandomDoubleWithException(-1);
+					System.out.println("f(x) = ("+c+"x-"+d+")^"+alpha);
+					response = functions.pow1(borneInf, borneSup, c, d, alpha);
+					break;
+					
+				case Q21b:
+					ArrayList<Double> exceptions = new ArrayList<Double>();
+					exceptions.add(borneInf);
+					exceptions.add(borneSup);
+					c = random.getRandomDoubleWithExceptions(exceptions);	
+					System.out.println("f(x) = (1/(x-"+c+")");
+					response = functions.pow2(borneInf, borneSup, c);
+					break;
+					
+				case Q22a:
+					System.out.println("f(x) = cos("+c+"x)");
+					response = functions.trigo1(borneInf, borneSup, c);
+					break;
+					
+				case Q22b:
+					System.out.println("f(x) = sin("+c+"x)");
+					response = functions.trigo2(borneInf, borneSup, c);
+					break;
+					
+				case Q22c:
+					System.out.println("f(x) = tan("+c+"x)");
+					response = functions.trigo3(borneInf, borneSup, c);
+					break;	
+					
+				case Q23a:
+					c = random.getDoubleWithStepsAndLimitsPositive();
+					System.out.println("f(x) = ln("+c+"x)");
+					response = functions.log(borneInf, borneSup, c);
+					break;
+					
+				default:
+					break;
+			}
+			
+			System.out.println("A supprimer : Response : "+ response);
+			System.out.println("Quelle est votre reponse (tronquer a 0.01)?");
+			double answer = client.getDoubleAnswer();
+			
+			if(goodAnswer(answer, response))
+				this.noteEleve += this.q.getBareme();
 		}
 		
-		System.out.println("Quelle est votre reponse ?");
-		double answer = client.getDoubleAnswer();
-		
-		if(goodAnswer(answer, response))
-			this.noteEleve += this.q.getBareme();
 	}
-	
+		
 	public void askQuestionSecondDegreeEquations() {
 		
 		double a = random.getDoubleWithStepsAndLimits();
@@ -154,7 +132,7 @@ public class Examen {
 		
 		ArrayList<Double> results = functions.secondDegreEquations(a, b, c);
 		int resultsSize = results.size();
-		
+		System.out.println("A supprimer : Response : "+ results.toString());
 		System.out.println("Resoudre l'equation de second degre : "+a+"x^2+"+b+"x+"+c);
 		System.out.println("Combien de solutions ?");
 		
@@ -165,7 +143,7 @@ public class Examen {
 			
 			//Si dicriminant est egal a 0
 			if(resultsSize == 1) {
-				System.out.println("Quelle est la solution ?");
+				System.out.println("Quelle est la solution (tronquer a 0.01) ?");
 				x1 = client.getDoubleAnswer();
 				if(goodAnswer(x1, results.get(0)))
 					this.noteEleve += q.getBareme();			
@@ -174,7 +152,7 @@ public class Examen {
 			//Si le discriminant est > 0
 			else if(resultsSize == 2){
 				double x2;
-				System.out.println("Quelle sont les solutions (arrondis a 0.1) ?");
+				System.out.println("Quelle sont les solutions (tronquer a 0.01) ?");
 				System.out.println("Solution 1:");
 				x1 = client.getDoubleAnswer();
 				System.out.println("Solution 2:");
@@ -190,21 +168,17 @@ public class Examen {
 	}
 	
 	public boolean goodAnswerSecond(ArrayList<Double> response, double x1, double x2) {
-		DecimalFormat df = new DecimalFormat("#.#");
-		df.setRoundingMode(RoundingMode.CEILING);
 		
-		if(df.format(x1) == df.format(response.get(0)))
-			return df.format(x2) == df.format(response.get(1));
+		if(goodAnswer(x1,response.get(0)))
+			return goodAnswer(x2,response.get(1));
 		
-		if(df.format(x1) == df.format(response.get(1)))
-			return df.format(x2) == df.format(response.get(0));
+		if(goodAnswer(x1,response.get(1)))
+			return goodAnswer(x2,response.get(0));
 			
 		return false;
 	}
 	
 	public boolean goodAnswer(double a, double b) {
-		DecimalFormat df = new DecimalFormat("#.#");
-		df.setRoundingMode(RoundingMode.CEILING);
-		return df.format(a) == df.format(b);
+		return (int)(a*100) == (int)(b*100);
 	}
 }

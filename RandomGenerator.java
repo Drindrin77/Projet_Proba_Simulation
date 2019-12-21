@@ -19,7 +19,16 @@ public class RandomGenerator {
 		
 		return randomElement;
 	}
-	
+	public double getDoubleWithStepsAndLimitsPositive() {
+		
+		ArrayList<Double> doubles = new ArrayList<Double>();
+		for(double i = 0 ; i <= 10 ; i +=0.5) {
+			doubles.add(i);
+		}
+		double randomElement = doubles.get(random.nextInt(doubles.size()));
+		
+		return randomElement;
+	}
 	// 0 = borne inf, 1 = borne sup 
 	public ArrayList<Double> getLimitsIntegral() {
 		ArrayList<Double> limits = new ArrayList<Double>();
