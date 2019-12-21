@@ -77,7 +77,7 @@ public class Examen {
 		//poids pour l'exercice 1
 		int poidP1, poidP2;
 		poidP1 = client.getWeight("Entrez la poid pour l'exercice 1:");
-		poidP2 = client.getWeight("Entrez la probabilité pour l'exercice 2:");
+		poidP2 = client.getWeight("Entrez la poid pour l'exercice 2:");
 
 		probaP1 = poidP1 / (double) (poidP1 + poidP2);
 
@@ -88,11 +88,11 @@ public class Examen {
 					"Dans le cas où vous tomberiez sur l'exercice 2, choisissez les poids d'être interogé \n" +
 					"sur la question 21 (fonctions puissance), sur la question 22 (fonctions trigonométrique) \n" +
 					"ou sur la question 23 (fonctions logarithmique)\n\n" +
-					"Attention : la somme des probabilités doit être égale à 1!\n" +
+					"Attention : les poids doivent toujouts être positifs!\n" +
 					"-----------------------------------------------------------------------------------------------\n");
 			poidP21 = client.getWeight("Entrez le poid  pour la question 21");
-			poidP22 = client.getWeight("Entrez la probabilité pour la question 22");
-			poidP23 = client.getWeight("Entrez la probabilité pour la question 23");
+			poidP22 = client.getWeight("Entrez la poid pour la question 22");
+			poidP23 = client.getWeight("Entrez la poid pour la question 23");
 
 			probaP21 = poidP21 / (double) (poidP21 + poidP22 + poidP23);
 			probaP22 = poidP22 / (double) (poidP21 + poidP22 + poidP23);
@@ -109,7 +109,7 @@ public class Examen {
 			ArrayList<Double> limits = random.getLimitsIntegral();
 			double a = limits.get(0);
 			double b = limits.get(1);
-			System.out.print("Resoudre l'integrale de "+ a + "a�" + b + "de la fonction ");
+			System.out.print("Resoudre l'integrale de "+ a + "a�" + b + "de la fonction ");
 			
 			if(q.equals(QuestionNumber.Q22a) || q.equals(QuestionNumber.Q22b) ||q.equals(QuestionNumber.Q22c) ||q.equals(QuestionNumber.Q23a)) {
 				double c = random.getRandomDoubleWithException(0);
@@ -199,7 +199,7 @@ public class Examen {
 		ArrayList<Double> results = functions.secondDegreEquations(a, b, c);
 		int resultsSize = results.size();
 		
-		System.out.println("Resoudre l'equation de second degre : "+a+"x�+"+b+"x+"+c);
+		System.out.println("Resoudre l'equation de second degre : "+a+"x�+"+b+"x+"+c);
 		System.out.println("Combien de solutions ?");
 		
 		int nbAnswers = client.getIntAnswer();
