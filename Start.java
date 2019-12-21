@@ -6,14 +6,14 @@ public class Start {
 		Examen exam = new Examen(client);
 		int restart = 1;
 		
-		System.out.println("Controle de probabilite");
+		System.out.println("**********Controle de probabilite************\n");
 		do {
 			client.askPounds();
 			exam.choseQuestion();
 			exam.startQuestion();
 		
 			System.out.println("Voulez-vous recommencer? 1 pour oui, 0 pour non");
-			restart = client.getIntAnswer();
+			restart = client.getRestart();
 			
 		} while (restart == 1);
 		

@@ -5,10 +5,14 @@ public class RandomGenerator {
 
 	private Random random;
 	
-	public double getDoubleWithStepsAndLimits(int min, int max, double steps) {
+	public RandomGenerator() {
+		this.random = new Random();
+	}
+	
+	public double getDoubleWithStepsAndLimits() {
 		
 		ArrayList<Double> doubles = new ArrayList<Double>();
-		for(double i = min ; i <= max ; i +=steps) {
+		for(double i = -10 ; i <= 10 ; i +=0.5) {
 			doubles.add(i);
 		}
 		double randomElement = doubles.get(random.nextInt(doubles.size()));
@@ -19,11 +23,11 @@ public class RandomGenerator {
 	// 0 = borne inf, 1 = borne sup 
 	public ArrayList<Double> getLimitsIntegral() {
 		ArrayList<Double> limits = new ArrayList<Double>();
-		double inf = random.nextDouble();
+		double inf = getDoubleWithStepsAndLimits();
 		double supp;
 		do {
-			supp = random.nextDouble();
-		} while(inf == supp || inf > supp);
+			supp = getDoubleWithStepsAndLimits();
+		} while(inf >= supp);
 		
 		limits.add(inf);
 		limits.add(supp);
@@ -31,14 +35,10 @@ public class RandomGenerator {
 		return limits;
 	}
 	
-	public double getRandomDouble() {
-		return random.nextDouble();
-	}
-	
 	public double getRandomDoubleWithException(double exception) {
 		double result;
 		do {
-			result = random.nextDouble();
+			result = getDoubleWithStepsAndLimits();
 		} while(result == exception);
 		
 		return result;
@@ -47,7 +47,7 @@ public class RandomGenerator {
 	public double getRandomDoubleWithExceptions(ArrayList<Double> exceptions) {
 		double result;
 		do {
-			result = random.nextDouble();
+			result = getDoubleWithStepsAndLimits();
 		} while(exceptions.contains(result));
 		
 		return result;

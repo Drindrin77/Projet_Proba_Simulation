@@ -7,6 +7,7 @@ public class ClientAnswer {
 	
 	private double probaP1, probaP21, probaP22;
 	
+	@SuppressWarnings("resource")
 	public ClientAnswer() {
 		scanner = new Scanner(System.in).useLocale(Locale.US);
 	}
@@ -50,6 +51,16 @@ public class ClientAnswer {
 			return getIntAnswer();
 		}
 		
+	}
+	
+	public int getRestart() {
+		int answer;
+		do{
+			System.out.println("Veuillez entrer 1 ou 0");
+			answer = getIntAnswer();
+		}while(answer!=0 && answer!=1);
+		
+		return answer;
 	}
 	
 	//Demande à l'étudiant de fixer les probabilité d'obtenir les questions pour l'ensemble de l'examen

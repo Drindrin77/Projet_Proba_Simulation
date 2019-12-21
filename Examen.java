@@ -67,7 +67,7 @@ public class Examen {
 			ArrayList<Double> limits = random.getLimitsIntegral();
 			double a = limits.get(0);
 			double b = limits.get(1);
-			System.out.print("Resoudre l'integrale de "+ a + "a" + b + "de la fonction ");
+			System.out.print("Resoudre l'integrale de "+ a + " a " + b + "de la fonction ");
 			
 			if(q.equals(QuestionNumber.Q22a) || q.equals(QuestionNumber.Q22b) ||q.equals(QuestionNumber.Q22c) ||q.equals(QuestionNumber.Q23a)) {
 				double c = random.getRandomDoubleWithException(0);
@@ -101,7 +101,7 @@ public class Examen {
 	
 	public void askQuestionIntegration21a(double a, double b) {
 		double c = random.getRandomDoubleWithException(0);
-		double d = random.getRandomDouble();
+		double d = random.getDoubleWithStepsAndLimits();
 		double alpha = random.getRandomDoubleWithException(-1);
 		
 		System.out.println("f(x) = ("+c+"x-"+d+")^"+alpha);
@@ -148,9 +148,9 @@ public class Examen {
 	
 	public void askQuestionSecondDegreeEquations() {
 		
-		double a = random.getDoubleWithStepsAndLimits(-10, 10, 0.5);
-		double b = random.getDoubleWithStepsAndLimits(-10, 10, 0.5);
-		double c = random.getDoubleWithStepsAndLimits(-10, 10, 0.5);
+		double a = random.getDoubleWithStepsAndLimits();
+		double b = random.getDoubleWithStepsAndLimits();
+		double c = random.getDoubleWithStepsAndLimits();
 		
 		ArrayList<Double> results = functions.secondDegreEquations(a, b, c);
 		int resultsSize = results.size();
