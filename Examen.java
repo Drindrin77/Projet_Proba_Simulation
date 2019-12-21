@@ -155,7 +155,7 @@ public class Examen {
 		ArrayList<Double> results = functions.secondDegreEquations(a, b, c);
 		int resultsSize = results.size();
 		
-		System.out.println("Resoudre l'equation de second degre : "+a+"x�+"+b+"x+"+c);
+		System.out.println("Resoudre l'equation de second degre : "+a+"x^2+"+b+"x+"+c);
 		System.out.println("Combien de solutions ?");
 		
 		int nbAnswers = client.getIntAnswer();
