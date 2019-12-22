@@ -14,21 +14,20 @@ public class RandomGenerator {
 		ArrayList<Double> doubles = new ArrayList<Double>();
 		for(double i = -10 ; i <= 10 ; i +=0.5) {
 			doubles.add(i);
-		}
-		double randomElement = doubles.get(random.nextInt(doubles.size()));
-		
-		return randomElement;
+		}	
+		return doubles.get(random.nextInt(doubles.size()));
 	}
+	
 	public double getDoubleWithStepsAndLimitsPositive() {
 		
 		ArrayList<Double> doubles = new ArrayList<Double>();
-		for(double i = 0 ; i <= 10 ; i +=0.5) {
+		for(double i = 0.5 ; i <= 10 ; i +=0.5) {
 			doubles.add(i);
 		}
-		double randomElement = doubles.get(random.nextInt(doubles.size()));
 		
-		return randomElement;
+		return doubles.get(random.nextInt(doubles.size()));
 	}
+	
 	// 0 = borne inf, 1 = borne sup 
 	public ArrayList<Double> getLimitsIntegral() {
 		ArrayList<Double> limits = new ArrayList<Double>();

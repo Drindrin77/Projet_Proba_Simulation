@@ -50,7 +50,6 @@ public class Functions {
 	
 	public double log(double a, double b, double c) {
         return b * Math.log(b*c)-a*Math.log(a*c)-c*(b-a);
-
 	}
 
 }

@@ -63,7 +63,7 @@ public class ClientAnswer {
 		return answer;
 	}
 	
-	//Demande à l'étudiant de fixer les probabilité d'obtenir les questions pour l'ensemble de l'examen
+	//Demande a� l'etudiant les poids pour obtenir les questions
 	public void askPounds(){
 		System.out.println("Choisissez les poids d'etre interoger sur l'exercice 1 (equations du second degre)\n" +
 				"ou sur l'exercice 2 (integration sur R)\n\n" +

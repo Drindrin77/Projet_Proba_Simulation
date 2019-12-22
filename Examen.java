@@ -85,7 +85,7 @@ public class Examen {
 					exceptions.add(borneInf);
 					exceptions.add(borneSup);
 					c = random.getRandomDoubleWithExceptions(exceptions);	
-					System.out.println("f(x) = (1/(x-"+c+")");
+					System.out.println("f(x) = 1/(x-"+c+")");
 					response = functions.pow2(borneInf, borneSup, c);
 					break;
 					
@@ -179,6 +179,8 @@ public class Examen {
 	}
 	
 	public boolean goodAnswer(double a, double b) {
+		if((int)(a*100) == (int)(b*100))
+			System.out.println("bonne reponse");
 		return (int)(a*100) == (int)(b*100);
 	}
 }
