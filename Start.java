@@ -7,8 +7,11 @@ public class Start {
 		int restart = 1;
 
 		System.out.println("**********Controle de probabilite************\n");
+		
+		//L eleve doit - il rentrer les poids a chaque fois ? 
+		client.askPounds();
+		
 		do {
-			client.askPounds();
 			exam.choseQuestion();
 			exam.startQuestion();
 		
@@ -18,9 +21,7 @@ public class Start {
 		} while (restart == 1);
 		
 		System.out.println("Vous avez eu "+exam.getNoteEleve()+" sur "+exam.getNoteExam());
-		
 		client.closeScanner();
-		
 	}
 
 }

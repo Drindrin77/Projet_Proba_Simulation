@@ -105,16 +105,13 @@ public class Examen {
 					break;	
 					
 				case Q23a:
-					c = random.getDoubleWithStepsAndLimitsPositive();
-					System.out.println("f(x) = ln("+c+"x)");
-					response = functions.log(borneInf, borneSup, c);
+					response = functions.log(random);
 					break;
 					
 				default:
 					break;
 			}
 			
-			System.out.println("A supprimer : Response : "+ response);
 			System.out.println("Quelle est votre reponse (tronquer a 0.01)?");
 			double answer = client.getDoubleAnswer();
 			
@@ -132,7 +129,6 @@ public class Examen {
 		
 		ArrayList<Double> results = functions.secondDegreEquations(a, b, c);
 		int resultsSize = results.size();
-		System.out.println("A supprimer : Response : "+ results.toString());
 		System.out.println("Resoudre l'equation de second degre : "+a+"x^2+"+b+"x+"+c);
 		System.out.println("Combien de solutions ?");
 		
@@ -179,8 +175,6 @@ public class Examen {
 	}
 	
 	public boolean goodAnswer(double a, double b) {
-		if((int)(a*100) == (int)(b*100))
-			System.out.println("bonne reponse");
 		return (int)(a*100) == (int)(b*100);
 	}
 }

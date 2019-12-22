@@ -45,11 +45,24 @@ public class Functions {
 		ln1 = Math.abs(Math.cos(b*c));
         ln2 = Math.abs(Math.cos(a*c));
         
-        return -( Math.log(ln1) - Math.log(ln2) )/ c;
+        return -(Math.log(ln1) - Math.log(ln2))/ c;
 	}
 	
-	public double log(double a, double b, double c) {
-        return b * Math.log(b*c)-a*Math.log(a*c)-c*(b-a);
+	public double log(RandomGenerator random) {
+		
+		double c = random.getDoubleWithStepsAndLimitsPositive();
+		double a,b;
+		Double calcul;
+		
+		do {
+			b = random.getDoubleWithStepsAndLimitsPositive();
+			a = random.getDoubleWithStepsAndLimitsPositive();
+			calcul = b * Math.log(b*c)-a*Math.log(a*c)-c*(b-a);
+			
+		} while(calcul.isNaN());
+		System.out.println(calcul);
+		System.out.println("f(x) = ln("+c+"x)");
+        return calcul;
 	}
 
 }
